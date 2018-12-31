@@ -4,8 +4,6 @@ var TARGET_ELEMENT_ID = '#cloud'; // 描画先
 
 d3.json(DATA_FILE_PATH).then(function(data) { // v5
 
-  console.log('input file : ' + DATA_FILE_PATH);
-
   var h = 490;
   var w = 600;
 
@@ -31,11 +29,13 @@ d3.json(DATA_FILE_PATH).then(function(data) { // v5
 
 
   // wordcloud 描画
-  // colorSchema see https://wizardace.com/d3v5-scale-chromatic/
   function draw(words) {
-    d3.select(TARGET_ELEMENT_ID).append("svg")
-        .attr("width", w)
-        .attr("height", h)
+    d3.select(TARGET_ELEMENT_ID)
+      .append("svg")
+        .attr("class", "ui fluid image") // style using semantic ui
+        .attr("viewBox", "0 0 " + w + " " + h )  // ViewBox : x, y, width, height
+        .attr("width", "100%")    // 表示サイズの設定
+        .attr("height", "100%")   // 表示サイズの設定
       .append("g")
         .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")")
       .selectAll("text")
@@ -44,12 +44,11 @@ d3.json(DATA_FILE_PATH).then(function(data) { // v5
         .style("font-size", function(d) { return d.size + "px"; })
         .style("font-family", "Impact")
         .style("fill", function(d, i) { return d3.schemeCategory10[i % 10]; })
-        
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
         .text(function(d) { return d.text; });
-    }
+  }
 
 });
